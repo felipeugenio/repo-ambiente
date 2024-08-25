@@ -8,9 +8,23 @@ on:
                     - producao
                     - homologacao
 jobs:
-    deploy-fake:
+    deploy-fake-homol:
         runs-on: ubuntu-latest
         environment: ${{ inputs.ambiente }}
+        steps:
+            - name: Fake de deploy em ambiente
+              run: echo "Deploy no ambiente de ${{ vars.AMBIENTE_DEPLOY }}"
+    teste-fake:
+        runs-on: ubuntu-latest
+        environment: ${{ inputs.ambiente }}
+        needs: [deploy-fake-homol]
+        steps:
+            - name: Fake de deploy em ambiente
+              run: echo "Deploy no ambiente de ${{ vars.AMBIENTE_DEPLOY }}"
+    deploy-fake-producao:
+        runs-on: ubuntu-latest
+        environment: ${{ inputs.ambiente }}
+        needs: [teste-fake]
         steps:
             - name: Fake de deploy em ambiente
               run: echo "Deploy no ambiente de ${{ vars.AMBIENTE_DEPLOY }}"
